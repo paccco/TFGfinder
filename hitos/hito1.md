@@ -19,3 +19,6 @@ Cuando un profesor y un alumno coincidan se les notificará y podrán chatear pa
 
 ### Nombre y foto
 ![Nombre y foto](https://github.com/paccco/TFGfinder/blob/main/imagenes/hito1/nombre.png)
+
+### Correos
+![Nombre y foto](https://github.com/paccco/TFGfinder/blob/main/imagenes/hito1/Correos.png)
