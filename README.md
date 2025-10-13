@@ -15,7 +15,7 @@ Este proyecto se va desarrollar desde 0
 - **Yarn**: Gestor de dependencias.  
 - **Docker**: Para contenerizar la aplicación y la base de datos. 
 
-## Descripción de carpetas y archivos
+## Descripción de carpetas y archivos (dentro de la carpeta proyecto)
 
 - **Dockerfile**: Contiene las instrucciones para crear la imagen Docker del proyecto.  
 - **package.json / yarn.lock**: Dependencias y scripts del proyecto.  
