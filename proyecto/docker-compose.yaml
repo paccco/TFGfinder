@@ -1,0 +1,32 @@
+version: "3.9"
+
+services:
+  mariadb:
+    image: mariadb:11
+    container_name: mariadb_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: mydatabase
+      MYSQL_USER: user
+      MYSQL_PASSWORD: userpassword
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./bd:/var/lib/mysql
+
+  fastify-server:
+    build: ./server 
+    container_name: fastify_server
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: 3000
+      HOST: 0.0.0.0
+      DB_HOST: mariadb
+      DB_USER: user
+      DB_PASSWORD: userpassword
+      DB_NAME: mydatabase
+    depends_on:
+      - mariadb
