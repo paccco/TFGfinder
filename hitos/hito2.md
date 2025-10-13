@@ -33,6 +33,11 @@ yarn add --dev jest nodemon
 
 ## Levantando ambos contenedores
 
-Ahora tocaria configurar el docker-compose.yaml, basicamente lo que se debe lograr es levantar 2 contenedores, 1 para la BD y otro para el server que recibirá y servirá peticiones al usuario. Se debe de hacer en el mismo archivo ya que este explica de que forma se conectan varios contenedores.
-Muy importante añadir todos los archivos a ignorar en el gitIgnore, entre ellos los .env, logs, archivos temporales, etc. Ahora mismo como no hay tablas de la BD no hay contenido pero más adelante será necesario hacer un dump para obtener el esquema por si alguien quiere reconstruir una BD con la misma lógica.
+Ahora tocaria configurar el docker-compose.yaml, basicamente lo que se debe lograr es levantar 2 contenedores, 1 para la BD y otro para el server que recibirá y servirá peticiones al usuario. Se debe de hacer en el mismo archivo ya que este explica de que forma se conectan varios contenedores. Una vez configurado ejecutamos en la terminal:
+
+```bash
+sudo docker-compose up -d --build
+```
+
+Ya estarían ambos contenedores en ejecución. Muy importante añadir todos los archivos a ignorar en el gitIgnore, entre ellos los .env, logs, archivos temporales, etc. Ahora mismo como no hay tablas de la BD no hay contenido pero más adelante será necesario hacer un dump para obtener el esquema por si alguien quiere reconstruir una BD con la misma lógica.
 
