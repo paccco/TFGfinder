@@ -16,3 +16,11 @@ Seguiendo con la isntalación de dependencias necesarias para las tecnologías d
 yarn add fastify fastify-static mariadb
 yarn add --dev jest
 ```
+En el package.json es necesario añadir scripts para inciar el server y poder usar jest:
+
+```js
+"scripts": {
+  "start": "node server.js",
+  "test": "jest"
+}
+```
