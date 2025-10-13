@@ -1,11 +1,18 @@
 ## Configuracion de yarn para el proyecto
 
-Para la instalación de yarn, necesitaremos la última versión estable de npm, una vez actualizado ejecutamos en la línea de comandos:
+Para la instalación de yarn, se necesita la última versión estable de npm, una vez actualizado se ejecutará en la línea de comandos:
 
-'''bash
+```bash
 npm install -g yarn
+```
+Una vez instalado yarn se procede a ejecutar el siguiente comando para preparar el proyecto para su uso:
 
-Una vez instalado yarn procedemos a ejecutar el siguiente comando para preparar el proyecto para que lo pueda usar:
-
-'''bash
+```bash
 yarn init -y
+```
+Seguiendo con la isntalación de dependencias necesarias para las tecnologías del proyecto:
+
+```bash
+yarn add fastify fastify-static mariadb
+yarn add --dev jest
+```
