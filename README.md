@@ -22,3 +22,8 @@ Este proyecto se va desarrollar desde 0
 - **server.js**: Archivo principal del servidor Fastify.  
 - **public/index.html**: Archivo HTML que se servirá desde el servidor.  
 - **db/init.sql**: Script SQL para inicializar la base de datos y crear tablas.
+
+## Levanando el contenedor
+
+Como no encontré ninguna imagen de docker específica con fastify, voy a hacer el dockerfile a mano y añadirle
+los contenidos necesarios.
