@@ -1,4 +1,4 @@
-# Configuracion del proeycto
+# Configuracion del proyecto
 
 Primero sera necesaria la instalación de yarn, se necesita la última versión estable de npm, una vez actualizado se ejecutará en la línea de comandos:
 
