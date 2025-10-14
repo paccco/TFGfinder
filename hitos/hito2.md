@@ -1,4 +1,4 @@
-# Configuracion del proeycto
+# Configuracion del proyecto
 
 Primero sera necesaria la instalación de yarn, se necesita la última versión estable de npm, una vez actualizado se ejecutará en la línea de comandos:
 
@@ -25,10 +25,10 @@ Una vez instalado, en la carpeta server se ejecuta:
 yarn init -y
 ```
 
-Se procede a añadir las dependencias, nodemon nos ayudará al no tener que reiniciar el server por cada cambio y dotoenv sirve para leer el .env
+Se procede a añadir las dependencias, dotoenv sirve para leer el .env
 ```bash
 yarn add fastify dotoenv
-yarn add --dev jest nodemon
+yarn add --dev jest
 ```
 
 ## Levantando ambos contenedores
