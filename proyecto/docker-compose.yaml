@@ -28,5 +28,7 @@ services:
       DB_USER: user
       DB_PASSWORD: userpassword
       DB_NAME: mydatabase
+    volumes:
+      - ./server/src:/app/src
     depends_on:
       - mariadb

@@ -1,19 +1,32 @@
-require('dotenv').config({ path: '../.env' });
-const fastify = require('fastify')({ logger: true });
+import dotenv from 'dotenv';
+dotenv.config({ path: '../.env' });
 
-const PORT = process.env.PORT || 3000;
-const HOST = process.env.HOST ;
+import Fastify from 'fastify';
+import { readFileSync } from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
 
-fastify.get('/', async (request, reply) => {
-  return { hello: 'world' };
+const app = Fastify({
+  logger: true
+});
+
+const PORT = process.env.PORT;
+const HOST = process.env.HOST;
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+app.get('/', (req, res) => {
+  const html = readFileSync(join(__dirname, './login.html'), 'utf8');
+  res.type('text/html').send(html);
 });
 
 const start = async () => {
   try {
-    await fastify.listen({ port: PORT, host: HOST });
+    await app.listen({ port: PORT, host: HOST });
     console.log(`Servidor escuchando en http://${HOST}:${PORT}`);
   } catch (err) {
-    fastify.log.error(err);
+    app.log.error(err);
     process.exit(1);
   }
 };
