@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-dotenv.config({ path: '../.env' });
+dotenv.config({ path: '../../.env' });
 
 import Fastify from 'fastify';
 import { readFileSync } from 'fs';
@@ -17,7 +17,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 app.get('/', (req, res) => {
-  const html = readFileSync(join(__dirname, './login.html'), 'utf8');
+  const html = readFileSync(join(__dirname, '../view/login.html'), 'utf8');
   res.type('text/html').send(html);
 });
 
