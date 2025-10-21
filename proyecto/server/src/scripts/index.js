@@ -1,25 +1,38 @@
 import dotenv from 'dotenv';
-dotenv.config({ path: '../../.env' });
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+// Esto crea una ruta absoluta a tu archivo .env
+const __filename = fileURLToPath(import.meta.url); // Ruta al archivo actual (index.js)
+const __dirname = path.dirname(__filename); // Ruta a la carpeta (src/scripts)
+
+// Sube dos niveles (../../) para llegar a la raíz del proyecto
+const envPath = path.resolve(__dirname, '../../ini.env'); 
+dotenv.config({ path: envPath });
 
 import Fastify from 'fastify';
-import { readFileSync } from 'fs';
-import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
+import fastifyCookie from '@fastify/cookie';
+import fastifySession from '@fastify/session';
+import scriptsRoutes from './server.js';
 
 const app = Fastify({
   logger: true
 });
 
+app.register(fastifyCookie);
+
+app.register(fastifySession, {
+  secret: process.env.SESSION_SECRET,
+  cookie: {
+    secure: false
+  },
+  expires: 1800000 // 30 minutos
+});
+
+app.register(scriptsRoutes);
+
 const PORT = process.env.PORT;
 const HOST = process.env.HOST;
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-app.get('/', (req, res) => {
-  const html = readFileSync(join(__dirname, '../view/login.html'), 'utf8');
-  res.type('text/html').send(html);
-});
 
 const start = async () => {
   try {

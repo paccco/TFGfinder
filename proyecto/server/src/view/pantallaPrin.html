@@ -8,12 +8,13 @@
         body {
             margin: 0;
             font-family: Arial, sans-serif;
+            background-color: #f0f2f5; /* Color de fondo suave */
         }
         header {
             display: flex;
             align-items: center;
             padding: 10px 20px;
-            background-color: #f8f8f8;
+            background-color: #ffffff; /* Fondo blanco */
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         .icono-casa {
@@ -24,6 +25,42 @@
             font-size: 20px;
             margin: 0;
         }
+        main {
+            padding: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        /* --- ESTILOS PARA LAS TARJETAS DE TFG --- */
+        .tfg-card {
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .tfg-card h2 {
+            margin-top: 0;
+            color: #333;
+        }
+        .tfg-card p {
+            color: #555;
+            line-height: 1.5;
+        }
+        .like-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .like-button:hover {
+            background-color: #0056b3;
+        }
+        /* --- Fin de estilos para tarjetas --- */
     </style>
 </head>
 <body>
@@ -33,7 +70,8 @@
     </header>
 
     <main>
-        <p>Contenido de la página aquí...</p>
+        <div id="tfg-container-placeholder"></div>
+        
     </main>
 </body>
 </html>
