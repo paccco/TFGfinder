@@ -45,6 +45,7 @@ jobs:
         with:
           node-version: '20' # Especifica tu versión de Node
           cache: 'yarn' # Activa la caché para Yarn
+          cache-dependency-path: proyecto/server/yarn.lock
 
       # Paso 3: Instalar dependencias con Yarn
       - name: Instalar dependencias
