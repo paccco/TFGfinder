@@ -1,0 +1,63 @@
+# .github/workflows/ci.yml
+
+name: CI de Node.js y MariaDB
+
+# 1. Disparadores: Cuándo se ejecuta esta acción
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  # 2. Definimos un "job" o trabajo llamado "test"
+  test:
+    name: Ejecutar Pruebas (Jest)
+    runs-on: ubuntu-latest # Usar una máquina virtual de Ubuntu
+
+    # GitHub Actions levantará este contenedor (MariaDB)
+    # y lo conectará a la red del runner principal.
+    services:
+      mariadb:
+        image: mariadb:11 # Usa la versión que necesites
+        ports:
+          - 3306:3306 # Mapea el puerto
+        env:
+          # Define las variables de entorno para la BBDD de prueba
+          MYSQL_ROOT_PASSWORD: rootpassword
+          MYSQL_DATABASE: mydatabase
+        # Opción de Healthcheck: No empezar las pruebas hasta que la BBDD esté lista
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost -u root -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+    steps:
+      # Paso 1: Obtener tu código del repositorio
+      - name: Checkout del código
+        uses: actions/checkout@v4
+
+      # Paso 2: Configurar Node.js
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # Especifica tu versión de Node
+          cache: 'yarn' # Activa la caché para Yarn
+
+      # Paso 3: Instalar dependencias con Yarn
+      - name: Instalar dependencias
+        run: yarn install --frozen-lockfile
+
+      # Paso 4: Ejecutar las pruebas (Jest)
+      - name: Correr Jest
+        run: yarn test
+        # Pasa las variables de entorno a tu app (Fastify/Jest)
+        # para que sepa cómo conectarse al servicio MariaDB
+        env:
+          DB_HOST: mariadb # El servicio mariadb corre en localhost (o 127.0.0.1)
+          DB_PORT: 3000
+          DB_USER: user
+          DB_PASSWORD: userpassword
+          DB_DATABASE: mydatabase
+          # Asegúrate de que tu app (Fastify/Jest) use estas variables

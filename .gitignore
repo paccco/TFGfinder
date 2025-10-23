@@ -1,0 +1,12 @@
+#Notas personales
+notas.txt
+
+#Entorno
+*.env
+
+#Servidor
+## Dependencias
+node_modules
+
+#Base de datos
+bd
