@@ -12,19 +12,11 @@ class BD {
 
   constructor() {
 
-    console.log('[DEBUG CI] Verificando variables de entorno...');
-console.log('[DEBUG CI] DB_HOST:', process.env.DB_HOST);
-console.log('[DEBUG CI] DB_PORT:', process.env.DB_PORT);
-console.log('[DEBUG CI] DB_USER:', process.env.DB_USER);
-console.log('[DEBUG CI] DB_PASSWORD (longitud):', process.env.DB_PASSWORD ? process.env.DB_PASSWORD.length : 'no definida');
-console.log('[DEBUG CI] DB_DATABASE:', process.env.DB_DATABASE); // <-- Esta es la línea clave
-console.log('--- FIN DE LOGS DE DEPURACIÓN ---');
-
     this.#pool = mysql.createPool({
       host: process.env.DB_HOST,
       user: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
-      database: process.env.DB_NAME,
+      database: process.env.DB_DATABASE,
       port: process.env.DB_PORT,
       connectionLimit: 10
     });
