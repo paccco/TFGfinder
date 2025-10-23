@@ -1,6 +1,9 @@
 import mysql from 'mysql2/promise';
-import dotenv from 'dotenv';
-dotenv.config({ path: '/app/ini.env' });
+
+if(!process.env.CI){
+  import dotenv from 'dotenv';
+  dotenv.config({ path: '/app/ini.env' });
+}
 
 class BD {
   //Atributo privado
