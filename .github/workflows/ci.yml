@@ -60,8 +60,8 @@ jobs:
         # para que sepa cómo conectarse al servicio MariaDB
         env:
           DB_HOST: 127.0.0.1
-          DB_PORT: 3000
-          DB_USER: user
-          DB_PASSWORD: userpassword
+          DB_PORT: 3306
+          DB_USER: root
+          DB_PASSWORD: rootpassword
           DB_DATABASE: mydatabase
-          # Asegúrate de que tu app (Fastify/Jest) use estas variables
+          CI: true
