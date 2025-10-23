@@ -59,7 +59,7 @@ jobs:
         # Pasa las variables de entorno a tu app (Fastify/Jest)
         # para que sepa cómo conectarse al servicio MariaDB
         env:
-          DB_HOST: mariadb # El servicio mariadb corre en localhost (o 127.0.0.1)
+          DB_HOST: 127.0.0.1
           DB_PORT: 3000
           DB_USER: user
           DB_PASSWORD: userpassword
