@@ -19,13 +19,14 @@ jobs:
     # y lo conectará a la red del runner principal.
     services:
       mariadb:
-        image: mariadb:11 # Usa la versión que necesites
+        image: mariadb:10.6 # Usa la versión que necesites
         ports:
           - 3306:3306 # Mapea el puerto
         env:
           # Define las variables de entorno para la BBDD de prueba
           MYSQL_ROOT_PASSWORD: rootpassword
           MYSQL_DATABASE: mydatabase
+          MYSQL_USE_NATIVE_AIO: 0
         # Opción de Healthcheck: No empezar las pruebas hasta que la BBDD esté lista
         options: >-
           --health-cmd="mysqladmin ping -h localhost -u root -proot"
