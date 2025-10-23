@@ -6,7 +6,7 @@ import bdInstance from './conexionBD.js';
 import path from 'path';
 import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
+import { join } from 'path';
 
 const __filename = fileURLToPath(import.meta.url); // Ruta al archivo actual (index.js)
 const __dirname = path.dirname(__filename)

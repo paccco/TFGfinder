@@ -1,6 +1,6 @@
 import mysql from 'mysql2/promise';
 import dotenv from 'dotenv';
-dotenv.config({ path: '../../.env' });
+dotenv.config({ path: '/app/ini.env' });
 
 class BD {
   //Atributo privado
@@ -42,10 +42,35 @@ class BD {
           WHERE usuario = '${usuario}'
         );
       `);
-
-      console.log("Consulta obtenerTFGnoVistos ejecutada para usuario: " + usuario + "\n");
-      console.log("TFGs no vistos obtenidos: " + rows.length + "\n");
     return rows;
+  }
+
+  //Esto solo es para pruebas
+  async getLikesUsuario(usuario) {
+    const [rows] = await this.#pool.execute(`
+      SELECT tfg
+      FROM TFG_Likes
+      WHERE usuario = ?;
+    `, [usuario]);
+
+    return rows;
+  }
+
+  async getTodoslosTFG() {
+    const [rows] = await this.#pool.execute(`
+      SELECT nombre FROM TFG;
+    `);
+  
+      console.log(rows.length + " TFGs obtenidos.\n");
+
+    return rows;
+  }
+
+  async closePool() {
+    if (this.#pool) {
+      await this.#pool.end();
+      console.log("Pool de conexiones cerrado.");
+    }
   }
 }
 

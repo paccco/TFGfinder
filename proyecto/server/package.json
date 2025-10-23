@@ -13,9 +13,11 @@
   },
   "scripts": {
     "start": "node --watch src/scripts/index.js",
-    "test": "jest"
+    "test:tfgs": "jest src/tests/tfgsVisibles.test.js"
   },
   "devDependencies": {
+    "@babel/core": "^7.28.4",
+    "@babel/preset-env": "^7.28.3",
     "jest": "^30.2.0"
   }
 }
