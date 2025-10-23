@@ -7,8 +7,9 @@ const __filename = fileURLToPath(import.meta.url); // Ruta al archivo actual (in
 const __dirname = path.dirname(__filename); // Ruta a la carpeta (src/scripts)
 
 // Sube dos niveles (../../) para llegar a la raíz del proyecto
-const envPath = path.resolve(__dirname, '../../ini.env'); 
-dotenv.config({ path: envPath });
+if(!process.env.CI){
+  dotenv.config({ path: '/app/ini.env' });
+}
 
 import Fastify from 'fastify';
 import fastifyCookie from '@fastify/cookie';

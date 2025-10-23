@@ -2,7 +2,6 @@ import mysql from 'mysql2/promise';
 import dotenv from 'dotenv';
 
 if(!process.env.CI){
-
   dotenv.config({ path: '/app/ini.env' });
 }
 
