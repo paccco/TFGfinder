@@ -50,10 +50,12 @@ jobs:
       # Paso 3: Instalar dependencias con Yarn
       - name: Instalar dependencias
         run: yarn install --frozen-lockfile
+        working-directory: ./proyecto/server
 
       # Paso 4: Ejecutar las pruebas (Jest)
       - name: Correr Jest
         run: yarn test
+        working-directory: ./proyecto/server
         # Pasa las variables de entorno a tu app (Fastify/Jest)
         # para que sepa cómo conectarse al servicio MariaDB
         env:
