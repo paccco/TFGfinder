@@ -12,12 +12,6 @@ describe("Pruebas de TFGs visibles para un usuario en la página principal", () 
         allTfgs = await bdInstance.getTodoslosTFG();
         tfgsNoVistos = await bdInstance.obtenerTFGnoVistos(usuarioPrueba);
         tfgsConLikes = await bdInstance.getLikesUsuario(usuarioPrueba);
-
-        console.log("--- DATOS CARGADOS EN beforeAll ---");
-        console.log(`Total TFGs: ${allTfgs.length}`);
-        console.log(`No Vistos: ${tfgsNoVistos.length}`);
-        console.log(`Con Likes: ${tfgsConLikes.length}`);
-        console.log("---------------------------------");
     });
 
     afterAll(async () => {
