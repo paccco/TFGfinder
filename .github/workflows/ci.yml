@@ -1,5 +1,3 @@
-# .github/workflows/ci.yml
-
 name: CI de Node.js y MariaDB
 
 # 1. Disparadores: Cuándo se ejecuta esta acción
@@ -43,7 +41,7 @@ jobs:
       - name: Configurar Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20' # Especifica tu versión de Node
+          node-version: '20' 
           cache: 'yarn' # Activa la caché para Yarn
           cache-dependency-path: proyecto/server/yarn.lock
 
@@ -55,6 +53,7 @@ jobs:
       # Paso 4: Cargar el dump de la base de datos de prueba
       - name: Cargar el dump de la base de datos de prueba
         run: 
+          echo < ls
           mysql -h 127.0.0.1 --port 3306 -u root -prootpassword mydatabase < ./proyecto/dump_pruebas.sql
         working-directory: ./proyecto/server
 
