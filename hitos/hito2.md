@@ -251,3 +251,4 @@ jobs:
 
 Y ya tendríamos git actions funcionando
 ![Foto workflow](https://github.com/paccco/TFGfinder/blob/main/imagenes/hito2/workflow.png)
+![Foto ejecucion test](https://github.com/paccco/TFGfinder/blob/main/imagenes/hito2/ejecucionTest.png)
