@@ -41,3 +41,24 @@ sudo docker-compose up -d --build
 
 Ya estarían ambos contenedores en ejecución. Muy importante añadir todos los archivos a ignorar en el gitIgnore, entre ellos los .env, logs, archivos temporales, etc. Ahora mismo como no hay tablas de la BD no hay contenido pero más adelante será necesario hacer un dump para obtener el esquema por si alguien quiere reconstruir una BD con la misma lógica.
 
+## Configuración del gestor de tareas
+
+Para empezar hay que instalar yarn se planea usar este porque es mucho más rápida y eficiente que node (Facebook la desarrollo con ese objetivo). Como primer paso se ejecutará:
+
+```bash
+npm install -g yarn
+```
+
+El siguiente paso sería usar en la carpeta del servidor (-y es para aceptar todas las opciones):
+
+```bash
+yarn init -y
+```
+
+Y por último se procede a instalar todas las dependencias usando en la misma carpeta:
+
+```bash
+yarn add <dependencias>
+```
+
+## Configurando la biblioteca de aserciones
