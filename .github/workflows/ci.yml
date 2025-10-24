@@ -55,8 +55,7 @@ jobs:
       # Paso 4: Cargar el dump de la base de datos de prueba
       - name: Cargar el dump de la base de datos de prueba
         run: 
-          mysql -h 127.0.0.1 --port 3306 -u root -prootpassword mydatabase < proyecto/dump_pruebas.sql
-          echo "Dump cargado."
+          mysql -h 127.0.0.1 --port 3306 -u root -prootpassword mydatabase < ./proyecto/dump_pruebas.sql
         working-directory: ./proyecto/server
 
       # Paso 5: Ejecutar las pruebas (Jest)
