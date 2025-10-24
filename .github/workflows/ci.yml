@@ -52,7 +52,14 @@ jobs:
         run: yarn install --frozen-lockfile
         working-directory: ./proyecto/server
 
-      # Paso 4: Ejecutar las pruebas (Jest)
+      # Paso 4: Cargar el dump de la base de datos de prueba
+      - name: Cargar el dump de la base de datos de prueba
+        run: 
+          mysql -h 127.0.0.1 --port 3306 -u root -prootpassword mydatabase < proyecto/dump_pruebas.sql
+          echo "Dump cargado."
+        working-directory: ./proyecto/server
+
+      # Paso 5: Ejecutar las pruebas (Jest)
       - name: Correr Jest
         run: yarn test
         working-directory: ./proyecto/server
