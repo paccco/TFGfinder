@@ -173,3 +173,80 @@ Done in 2.10s.
 ```
 
 ## Configuración IC
+Se ha decidido usar git actions, dado que es una herramienta cuyo uso está muy extendido, para ello debemos crear el directorio .github en el mismmo en el que se situa .git, dentro se creará la carpeta workflows en la cuál debemos crear un archivo yaml en el que definiremos la configuración del contenedor que construiran en los servidores de git.
+
+```yaml
+name: CI de Node.js y MariaDB
+
+# 1. Disparadores: Cuándo se ejecuta esta acción
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  # 2. Definimos un "job" o trabajo llamado "test"
+  test:
+    name: Ejecutar Pruebas (Jest)
+    runs-on: ubuntu-latest # Usar una máquina virtual de Ubuntu
+
+    # GitHub Actions levantará este contenedor (MariaDB)
+    # y lo conectará a la red del runner principal.
+    services:
+      mariadb:
+        image: mariadb:10.6 # Usa la versión que necesites
+        ports:
+          - 3306:3306 # Mapea el puerto
+        env:
+          # Define las variables de entorno para la BBDD de prueba
+          MYSQL_ROOT_PASSWORD: rootpassword
+          MYSQL_DATABASE: mydatabase
+          MYSQL_USE_NATIVE_AIO: 0
+        # Opción de Healthcheck: No empezar las pruebas hasta que la BBDD esté lista
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost -u root -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+    steps:
+      # Paso 1: Obtener tu código del repositorio
+      - name: Checkout del código
+        uses: actions/checkout@v4
+
+      # Paso 2: Configurar Node.js
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' 
+          cache: 'yarn' # Activa la caché para Yarn
+          cache-dependency-path: proyecto/server/yarn.lock
+
+      # Paso 3: Instalar dependencias con Yarn
+      - name: Instalar dependencias
+        run: yarn install --frozen-lockfile
+        working-directory: ./proyecto/server
+
+      # Paso 4: Cargar el dump de la base de datos de prueba
+      - name: Cargar el dump de la base de datos de prueba
+        run: 
+          mysql -h 127.0.0.1 --port 3306 -u root -prootpassword mydatabase < dump_pruebas.sql
+        working-directory: ./proyecto
+
+      # Paso 5: Ejecutar las pruebas (Jest)
+      - name: Correr Jest
+        run: yarn test
+        working-directory: ./proyecto/server
+        # Pasa las variables de entorno a tu app (Fastify/Jest)
+        # para que sepa cómo conectarse al servicio MariaDB
+        env:
+          DB_HOST: 127.0.0.1
+          DB_PORT: 3306
+          DB_USER: root
+          DB_PASSWORD: rootpassword
+          DB_DATABASE: mydatabase
+          CI: true
+```
+
+Y ya tendríamos git actions funcionando
