@@ -3,7 +3,7 @@ let allTfgs = [];
 let tfgsNoVistos = [];
 let tfgsConLikes = [];
 
-const usuarioPrueba = "alu_";
+const usuarioPrueba = "alu_laura";
 
 describe("Pruebas de TFGs visibles para un usuario en la página principal", () => {
 
@@ -26,7 +26,7 @@ describe("Pruebas de TFGs visibles para un usuario en la página principal", () 
     });
 
     test("Los TFGs no vistos deben ser correctos según los 'Me gusta' del usuario", () => {
-        
+
         if (tfgsConLikes.length === 0) {
             console.log("Ejecutando aserción: Sin 'Me gusta'");
             expect(tfgsNoVistos.length).toBe(allTfgs.length);

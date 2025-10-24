@@ -1,8 +1,5 @@
 import dotenv from 'dotenv';
-
-if(!process.env.CI){
-  dotenv.config({ path: '/app/ini.env' });
-}
+dotenv.config({ path: '/app/ini.env' });
 
 import bdInstance from './conexionBD.js';
 

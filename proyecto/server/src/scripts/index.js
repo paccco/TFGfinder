@@ -6,10 +6,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url); // Ruta al archivo actual (index.js)
 const __dirname = path.dirname(__filename); // Ruta a la carpeta (src/scripts)
 
-// Sube dos niveles (../../) para llegar a la raíz del proyecto
-if(!process.env.CI){
-  dotenv.config({ path: '/app/ini.env' });
-}
+dotenv.config({ path: '/app/ini.env' });
 
 import Fastify from 'fastify';
 import fastifyCookie from '@fastify/cookie';

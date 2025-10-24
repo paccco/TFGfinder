@@ -11,7 +11,7 @@
     "fastify": "^5.6.1",
     "mysql2": "^3.15.2"
   },
-  "scripts": {
+  "scripts": { 
     "start": "node --watch src/scripts/index.js",
     "test": "jest --runInBand src/tests/",
     "test:tfgs": "jest src/tests/tfgsVisibles.test.js"
