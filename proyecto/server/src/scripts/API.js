@@ -32,6 +32,45 @@ async function generarPantallaPrincipal(usuarioNombre, usuarioTipo) {
 
 export default async function (fastify, options) {
     
+  fastify.post('/crearUsuario',
+    {
+      schema: {
+        body: {
+          type: 'object',
+          required: ['user', 'password', 'tipo'],
+          properties: {
+            user: { type: 'string' },
+            password: { type: 'string' },
+            tipo: { type: 'integer', enum: [0, 1] } // 0: estudiante, 1: profesor
+          }
+        }
+      }
+    }
+    ,async (req, reply) => {
+    
+      const { user, password, tipo } = req.body;
+
+      try {
+        const exito = await bdInstance.insertUsuario(user, password, tipo);
+
+        if (exito) {
+          reply.redirect('/login.html');
+        } else {
+          reply.code(500).send({ error: 'Error al crear el usuario' });
+        }
+      }
+      catch (error) {
+
+        if (error.code === '23505' || error.code === 'ER_DUP_ENTRY') {
+          return reply.code(409).send({ error: 'El nombre de usuario ya existe' });
+        }
+
+        console.error(error);
+        reply.code(500).send({ error: 'Error interno del servidor' });
+      }
+    }
+  );
+
     fastify.post('/login/verifica',
       {
         schema: {
@@ -128,6 +167,7 @@ export default async function (fastify, options) {
           }
         }
       );
+
       fastify.post( '/subirTfg',
         {
           onRequest: [checkAuth],
@@ -141,10 +181,31 @@ export default async function (fastify, options) {
           const {nombre, descripcion} = req.body;
 
           try {
-            await bdInstance.subirNuevoTFG(nombre, descripcion);
+            await bdInstance.insertTFG(nombre, descripcion);
             res.send({ message: 'TFG subido correctamente' });
           } catch (error) {
             console.error("Error al subir TFG:", error);
+            res.code(500).send("Error interno del servidor");
+          }
+        }
+      );
+
+      fastify.get( '/likeTFG',
+        {
+          onRequest: [checkAuth]
+        }, 
+        async (req, res) => {
+          console.log("\nRegistrando like...\n");
+          const { nombre } = req.query;
+          const usuarioNombre = req.session.user.nombre;
+          try {
+            if(await bdInstance.insertLike(usuarioNombre, nombre)){
+              res.redirect('/pantallaPrin.html');
+            }else{
+              res.code(500).send("Error al registrar like");
+            }
+          } catch (error) {
+            console.error("Error al registrar like:", error);
             res.code(500).send("Error interno del servidor");
           }
         }

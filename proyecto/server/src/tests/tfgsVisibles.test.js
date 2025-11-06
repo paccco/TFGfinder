@@ -10,7 +10,7 @@ describe("Pruebas de TFGs visibles para un usuario en la página principal", () 
     //Obtenemos los datos antes de las pruebas
     beforeAll(async () => {
         allTfgs = await bdInstance.getTodoslosTFG();
-        tfgsNoVistos = await bdInstance.obtenerTFGnoVistos(usuarioPrueba);
+        tfgsNoVistos = await bdInstance.getTFGnoVistos(usuarioPrueba);
         tfgsConLikes = await bdInstance.getLikesUsuario(usuarioPrueba);
     });
 

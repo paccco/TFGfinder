@@ -46,13 +46,31 @@ class BD {
     return rows;
   }
 
-  async subirNuevoTFG(nombre, descripcion) {
+  async insertUsuario(nombre, password, tipo) {
+    const [result] = await this.#pool.execute(
+      'INSERT INTO Usuarios (nombre, password, tipo) VALUES (?, ?, ?)',
+      [nombre, password, tipo]
+    );
+
+    return result.affectedRows === 1;
+  }
+
+  async insertTFG(nombre, descripcion) {
     const [result] = await this.#pool.execute(
       'INSERT INTO TFG (nombre, descripcion) VALUES (?, ?)',
       [nombre, descripcion]
     );
 
     console.log("Nuevo TFG subido: " + nombre + "\n");
+
+    return result.affectedRows === 1;
+  }
+
+  async insertLike(usuario, tfg) {
+    const [result] = await this.#pool.execute(
+      'INSERT INTO TFG_Likes (usuario, tfg) VALUES (?, ?)',
+      [usuario, tfg]
+    );
 
     return result.affectedRows === 1;
   }

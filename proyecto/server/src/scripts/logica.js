@@ -23,8 +23,7 @@ export function TFGinHTML(rows, tipo) {
           const deleteButtonHtml = esProfesor
               ? `<button 
                   class="delete-button" 
-                  data-tfg="${tfg.nombre}"
-                  onclick="window.location.href='/borrarTfg?nombre=' + encodeURIComponent(this.getAttribute('data-tfg'))">
+                  onclick="window.location.href='/borrarTfg?nombre=' + encodeURIComponent('${tfg.nombre}')">
                   Eliminar 🗑️
                 </button>`
               : ''; 
@@ -33,7 +32,11 @@ export function TFGinHTML(rows, tipo) {
           <div class="tfg-card">
               <h2>${tfg.nombre}</h2>
               <p>${tfg.descripcion}</p>
-              <button class="like-button" data-tfg="${tfg.nombre}">Me gusta 👍</button>
+              <button 
+                class="like-button"
+                onclick="window.location.href='/likeTFG?nombre=' + encodeURIComponent('${tfg.nombre}')">
+                Me gusta 👍
+              </button>
               ${deleteButtonHtml} 
           </div>
           `;
