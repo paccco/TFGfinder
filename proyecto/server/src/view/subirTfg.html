@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subir Idea de TFG</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 24px;
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box; 
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .submit-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            width: 100%;
+        }
+        .submit-btn:hover {
+            background-color: #0056b3;
+        }
+        
+        /* --- ESTILOS PARA MENSAJES --- */
+        #message {
+            margin-top: 1rem;
+            text-align: center;
+            font-weight: 600;
+        }
+        .error { color: #d93025; }
+        .success { color: #1e8e3e; }
+        /* --- FIN ESTILOS --- */
+    </style>
+</head>
+<body>
+
+    <main>
+        <h1>Subir Nueva Idea de TFG</h1>
+        
+        <form id="tfgForm">
+            <div class="form-group">
+                <label for="titulo-tfg">Título del TFG</label>
+                <input type="text" id="titulo-tfg" name="nombre" class="form-control" placeholder="Introduce un título claro y conciso">
+            </div>
+            
+            <div class="form-group">
+                <label for="descripcion-tfg">Descripción</label>
+                <textarea id="descripcion-tfg" name="descripcion" class="form-control" rows="5" placeholder="Explica la idea, objetivos, y posible metodología..."></textarea>
+            </div>
+            
+            <button type="submit" class="submit-btn">Enviar Idea</button>
+            
+            <div id="message"></div>
+        </form>
+        
+    </main>
+
+    <script>
+        const tfgForm = document.getElementById('tfgForm');
+        const messageDiv = document.getElementById('message');
+
+        tfgForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            messageDiv.textContent = '';
+            messageDiv.className = '';
+
+            // 2. Recoge los datos del formulario
+            const formData = new FormData(tfgForm);
+            
+            console.log("Formulario enviado:", Object.fromEntries(formData.entries()));
+
+            // 3. Convierte los datos a un objeto simple
+            //    Gracias a name="nombre" y name="descripcion",
+            //    esto creará: { nombre: "...", descripcion: "..." }
+            const data = Object.fromEntries(formData.entries());
+
+            if (!data.nombre || !data.descripcion) {
+                messageDiv.textContent = 'Por favor, rellena ambos campos.';
+                messageDiv.className = 'error';
+                return;
+            }
+
+            try {
+                const response = await fetch('/subirTfg', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    // 5. Convierte el objeto a un string JSON
+                    body: JSON.stringify(data)
+                });
+
+                console.log(response.body);
+
+                if (response.ok) {
+                    messageDiv.textContent = '¡Idea subida con éxito!';
+                    messageDiv.className = 'success';
+                    // Opcional: limpia el formulario
+                    tfgForm.reset(); 
+                } else {
+                    // Intenta leer un mensaje de error del servidor
+                    const errorData = await response.json().catch(() => null);
+                    messageDiv.textContent = errorData?.error || 'Error al subir la idea.';
+                    messageDiv.className = 'error';
+                }
+
+            } catch (error) {
+                console.error('Error de red:', error);
+                messageDiv.textContent = 'Error de conexión. Inténtalo de nuevo.';
+                messageDiv.className = 'error';
+            }
+        });
+    </script>
+</body>
+</html>

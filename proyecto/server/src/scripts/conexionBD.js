@@ -8,7 +8,6 @@ class BD {
   #pool;
 
   constructor() {
-
     this.#pool = mysql.createPool({
       host: process.env.DB_HOST,
       user: process.env.DB_USER,
@@ -43,9 +42,20 @@ class BD {
           WHERE usuario = '${usuario}'
         );
       `);
+
     return rows;
   }
 
+  async subirNuevoTFG(nombre, descripcion) {
+    const [result] = await this.#pool.execute(
+      'INSERT INTO TFG (nombre, descripcion) VALUES (?, ?)',
+      [nombre, descripcion]
+    );
+
+    console.log("Nuevo TFG subido: " + nombre + "\n");
+
+    return result.affectedRows === 1;
+  }
   //Esto solo es para pruebas
   async getLikesUsuario(usuario) {
     const [rows] = await this.#pool.execute(`

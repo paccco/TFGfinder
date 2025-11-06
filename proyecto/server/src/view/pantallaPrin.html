@@ -8,15 +8,33 @@
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background-color: #f0f2f5; /* Color de fondo suave */
+            background-color: #f0f2f5; 
         }
         header {
             display: flex;
             align-items: center;
             padding: 10px 20px;
-            background-color: #ffffff; /* Fondo blanco */
+            background-color: #ffffff;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
+        
+        /* --- ESTILO BOTÓN LOGOUT AÑADIDO --- */
+        .logout-btn {
+            background: none;
+            border: none;
+            color: #dc3545; /* Un color rojo para la acción de salir */
+            font-weight: bold;
+            cursor: pointer;
+            font-family: Arial, sans-serif;
+            font-size: 14px; /* Tamaño de fuente estándar */
+            margin-right: 15px; /* Espacio entre el botón y el icono de casa */
+            padding: 0;
+        }
+        .logout-btn:hover {
+            text-decoration: underline;
+        }
+        /* --- FIN ESTILO LOGOUT --- */
+
         .icono-casa {
             font-size: 24px;
             margin-right: 10px;
@@ -25,6 +43,21 @@
             font-size: 20px;
             margin: 0;
         }
+        
+        .nuevo-tfg-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-left: auto; 
+        }
+        .nuevo-tfg-btn:hover {
+            background-color: #0056b3;
+        }
+
         main {
             padding: 20px;
             max-width: 900px;
@@ -65,13 +98,24 @@
 </head>
 <body>
     <header>
+        <button class="logout-btn" >Cerrar Sesión</button>
+        
         <span class="icono-casa">🏠</span>
         <h1>Mi Página</h1>
+        
+        <a href="/subirTfg.html" class="nuevo-tfg-btn">Subir idea de TFG</a>
     </header>
 
     <main>
         <div id="tfg-container-placeholder"></div>
         
     </main>
+
+    <script>
+        const logoutButton = document.querySelector('.logout-btn');
+        logoutButton.addEventListener('click', () => {
+            window.location.href = '/logout';
+        });
+    </script>
 </body>
 </html>
