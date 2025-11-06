@@ -18,12 +18,10 @@ const plantillaPantallaPrin = readFileSync(
   'utf8'
 );
 
-async function generarPantallaPrincipal(usuarioNombre) {
+async function generarPantallaPrincipal(usuarioNombre, usuarioTipo) {
 
-  const rows = await bdInstance.obtenerTFGnoVistos(usuarioNombre);
-
-  const tfgsHtml = TFGinHTML(rows);
-
+  const rows = await bdInstance.getTFGnoVistos(usuarioNombre);
+  const tfgsHtml = TFGinHTML(rows, usuarioTipo);
   const finalHtml = plantillaPantallaPrin.replace(
     '<div id="tfg-container-placeholder"></div>', 
     tfgsHtml 
@@ -34,16 +32,6 @@ async function generarPantallaPrincipal(usuarioNombre) {
 
 export default async function (fastify, options) {
     
-    fastify.get('/logout', async (req, res) => {
-      req.session.destroy(err => {
-        if (err) {
-          console.error("Error al cerrar sesión:", err);
-          return res.code(500).send("Error interno del servidor");
-        }
-        res.redirect('/index.html');
-      });
-    });
-
     fastify.post('/login/verifica',
       {
         schema: {
@@ -74,18 +62,28 @@ export default async function (fastify, options) {
         } else {
           reply.code(401).send({ error: 'Credenciales incorrectas' });
         }
-  
+
       } catch (error) {
         console.error(error);
         reply.code(500).send({ error: 'Error interno del servidor' });
       }
+    });
+
+    fastify.get('/logout', async (req, res) => {
+      req.session.destroy(err => {
+        if (err) {
+          console.error("Error al cerrar sesión:", err);
+          return res.code(500).send("Error interno del servidor");
+        }
+        res.redirect('/index.html');
+      });
     });
   
     //Servir páginas HTML
     
     fastify.get('/login.html', async (req, res) => {
       if(req.session.user){
-        const html =await generarPantallaPrincipal(req.session.user.nombre);
+        const html =await generarPantallaPrincipal(req.session.user.nombre,req.session.user.tipo);
         res.type('text/html').send(html);
       }else{
         const html = readFileSync(join(__dirname, '../view/login.html'), 'utf8');
@@ -107,8 +105,7 @@ export default async function (fastify, options) {
         async (req, res) => {
           
           try {
-            const usuarioNombre = req.session.user.nombre;
-            const finalHtml = await generarPantallaPrincipal(usuarioNombre);
+            const finalHtml = await generarPantallaPrincipal(req.session.user.nombre, req.session.user.tipo);
             res.type('text/html').send(finalHtml);
           } catch (error) {
             console.error("Error al cargar pantallaPrin:", error);
@@ -151,5 +148,26 @@ export default async function (fastify, options) {
             res.code(500).send("Error interno del servidor");
           }
         }
+      );
+
+      fastify.get('/borrarTfg', 
+        { onRequest: [checkAuth] }
+        , async (req, res) => {
+        const tfgNombre = req.query.nombre;
+        try {
+          if(req.session.user.tipo===1){
+            if(await bdInstance.delTFG(tfgNombre)){
+              res.redirect('/pantallaPrin.html');
+            }else{
+              res.code(500).send("Error al eliminar TFG");
+            }
+          }else{
+            res.code(403).send("No autorizado");
+          }
+        } catch (error) {
+          console.error("Error al eliminar TFG:", error);
+          res.code(500).send("Error interno del servidor");
+        }
+      }
       );
   }

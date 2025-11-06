@@ -31,7 +31,7 @@ class BD {
     }
   }
 
-  async obtenerTFGnoVistos(usuario) {
+  async getTFGnoVistos(usuario) {
     const [rows] = await this.#pool.execute(`
       SELECT *
       FROM TFG
@@ -53,6 +53,17 @@ class BD {
     );
 
     console.log("Nuevo TFG subido: " + nombre + "\n");
+
+    return result.affectedRows === 1;
+  }
+
+  async delTFG(nombre) {
+    const [result] = await this.#pool.execute(
+      'DELETE FROM TFG WHERE nombre = ?',
+      [nombre]
+    );
+
+    console.log("TFG eliminado: " + nombre + "\n");
 
     return result.affectedRows === 1;
   }
