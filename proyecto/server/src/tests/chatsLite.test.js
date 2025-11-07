@@ -1,6 +1,6 @@
 import logica from "../scripts/logica";
 
-const usuarioPrueba = "juan"; // El estudiante que estamos probando
+const usuarioPrueba = "prof_ana"; // El estudiante que estamos probando
 
 // Almacenará los datos de prueba
 let mapaProfTfg = {};
