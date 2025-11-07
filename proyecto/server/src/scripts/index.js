@@ -14,7 +14,34 @@ const __filename = fileURLToPath(import.meta.url); // Ruta al archivo actual (in
 const __dirname = path.dirname(__filename)
 
 const app = Fastify({
-  logger: true
+  logger: {
+    level: 'info', // Nivel mínimo de log
+    // Configuración de "Transportes" (a dónde van los logs)
+    transport: {
+      targets: [
+        // --- Target 1: La Consola (stdout) ---
+        {
+          target: 'pino-pretty', // Usa el formateador bonito
+          options: {
+            destination: 1, // '1' significa stdout (la consola)
+            colorize: true, // Añade colores
+            translateTime: 'HH:MM:ss Z', // Formato de hora simple
+            ignore: 'pid,hostname' // No mostrar el ID de proceso y el host
+          }
+        },
+        
+        // --- Target 2: El Archivo ---
+        {
+          target: 'pino/file', // El transporte de archivo nativo de pino
+          options: {
+            // El archivo de log (en formato JSON, ideal para máquinas)
+            destination: path.join(__dirname,'../log', 'fastify-logs.log'),
+            mkdir: true // Crea la carpeta 'logs' si no existe
+          }
+        }
+      ]
+    }
+  }
 });
 
 app.register(scriptsRoutes);

@@ -43,3 +43,44 @@ Rutas GET (Páginas y Acciones):
   - /borrarTfg
 
 ¿Porque he puesto /likeTFG y /borrarTfg en GET? Para que se actualize la pagina con los cambios
+
+## Logs
+
+Para el archivo de los logs se usará el logger por defecto de fastify. Para el cout se usará pine-pretty, que no es un logger como tal es un estilo de logger para que sean más visuales los logs y menos engorrosos de leer.
+
+Se instala pine-pretty añadiendolo al package.json en dependecies y usando yarn install en el docker. Una vez isntalado se hacen los siguientes cambios en la parte donde se declara la funcion del server:
+
+``` js
+const app = Fastify({
+  logger: {
+    level: 'info', // Nivel mínimo de log
+    // Configuración de "Transportes" (a dónde van los logs)
+    transport: {
+      targets: [
+        // --- Target 1: La Consola (stdout) ---
+        {
+          target: 'pino-pretty', // Usa el formateador bonito
+          options: {
+            destination: 1, // '1' significa stdout (la consola)
+            colorize: true, // Añade colores
+            translateTime: 'HH:MM:ss Z', // Formato de hora simple
+            ignore: 'pid,hostname' // No mostrar el ID de proceso y el host
+          }
+        },
+        
+        // --- Target 2: El Archivo ---
+        {
+          target: 'pino/file', // El transporte de archivo nativo de pino
+          options: {
+            // El archivo de log (en formato JSON, ideal para máquinas)
+            destination: path.join(__dirname,'../log', 'fastify-logs.log'),
+            mkdir: true // Crea la carpeta 'logs' si no existe
+          }
+        }
+      ]
+    }
+  }
+});
+```
+
+Una vez hecho esto se vuelve a cosntruir el docker y nos quedaría tal que así:
