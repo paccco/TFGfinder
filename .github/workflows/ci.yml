@@ -47,7 +47,7 @@ jobs:
 
       # Paso 3: Instalar dependencias con Yarn
       - name: Instalar dependencias
-        run: yarn install --frozen-lockfile
+        run: yarn install
         working-directory: ./proyecto/server
 
       # Paso 4: Cargar el dump de la base de datos de prueba
