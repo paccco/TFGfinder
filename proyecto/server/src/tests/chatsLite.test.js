@@ -1,6 +1,6 @@
 import logica from "../scripts/logica";
 
-const usuarioPrueba = "alu_laura"; // El estudiante que estamos probando
+const usuarioPrueba = "juan"; // El estudiante que estamos probando
 
 // Almacenará los datos de prueba
 let mapaProfTfg = {};
@@ -57,15 +57,14 @@ describe("Comprobacion de que ambos usuarios hayan dado like", () => {
      */
     test("Los usuarios que tienen chats con el usuario de pruebas deben de haber dado like al tfg", async () => {    
         
-        console.log("Usuarios con chats: " + Object.keys(mapaProfTfg).length);
-
+        console.log("El usuario de pruebas tiene " + Object.keys(mapaProfTfg).length + " chats");
         Object.entries(mapaProfTfg).forEach(([profesor, tfgsEnChat]) => {
             expect(Object.keys(likesUsuario)).toContain(profesor);
-            console.log("Profesor: " + profesor + " existe en los chats");
+            console.log("EL profesor " + profesor + " existe en los chats del usuario de prueba");
             tfgsEnChat.forEach(tfg => {
                 expect(likesUsuario[profesor]).toContain(tfg);
             });
-            console.log("Profesor: " + profesor + " contiene todos los tfgs");
+            console.log("El profesor " + profesor + " tiene todos los TFGs en comun con el usuario de prueba ");
         });
     });
 });
