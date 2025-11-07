@@ -1,4 +1,4 @@
-import bdInstance from "../scripts/conexionBD";
+import logica from "../scripts/logica";
 let allTfgs = [];
 let tfgsNoVistos = [];
 let tfgsConLikes = [];
@@ -9,14 +9,14 @@ describe("Pruebas de TFGs visibles para un usuario en la página principal", () 
 
     //Obtenemos los datos antes de las pruebas
     beforeAll(async () => {
-        allTfgs = await bdInstance.getTodoslosTFG();
-        tfgsNoVistos = await bdInstance.getTFGnoVistos(usuarioPrueba);
-        tfgsConLikes = await bdInstance.getLikesUsuario(usuarioPrueba);
+        allTfgs = await logica.allTfgs();
+        tfgsNoVistos = await logica.tfgsNoVistos(usuarioPrueba);
+        tfgsConLikes = await logica.likesUsuario(usuarioPrueba);
     });
 
     afterAll(async () => {
         // Cierra la conexión a la BD para que Jest pueda salir
-        await bdInstance.closePool();
+        await logica.finPrueba();
     });
 
     test("Los TFGs no vistos deben ser correctos según los 'Me gusta' del usuario", () => {

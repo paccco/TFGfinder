@@ -14,7 +14,8 @@
   "scripts": { 
     "start": "node --watch src/scripts/index.js",
     "test": "jest --runInBand src/tests/",
-    "test:tfgs": "jest src/tests/tfgsVisibles.test.js"
+    "test:tfgs": "jest --runInBand src/tests/tfgsVisibles.test.js",
+    "test:chatsLite": "jest --runInBand src/tests/chatsLite.test.js"
   },
   "devDependencies": {
     "@babel/core": "^7.28.4",

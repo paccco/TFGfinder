@@ -98,6 +98,35 @@ class Logica{
     return await bdInstance.delTFG(nombre);
   }
 
+
+  // -------- SOLO PARA PRUEBAS ---------------
+
+  /**
+   * (Función de prueba/depuración) Obtiene todos los TFGs a los que un usuario ha dado 'like'.
+   * @param {string} user - El nombre del usuario.
+   * @returns {Promise<Array<object>>} Un array de objetos (solo con 'tfg').
+   */
+  async likesUsuario(user){
+    return await bdInstance.getLikesUsuario(user);
+  }
+
+  /**
+   * (Función de prueba/depuración) Obtiene el nombre de todos los TFGs en el sistema.
+   * @returns {Promise<Array<object>>} Un array de objetos (solo con 'nombre').
+   */
+  async allTfgs(){
+    return await bdInstance.getTodoslosTFG();
+  }
+
+  /**
+   * Cierra ordenadamente el pool de conexiones de la base de datos.
+   * Esta función debe ser llamada al final de los tests o antes de que
+   * la aplicación se apague para liberar los recursos.
+   * @returns {Promise<void>}
+   */
+  async finPrueba(){
+    await bdInstance.closePool();
+  }
 }
 
 // Se exporta una única instancia de la clase (Patrón Singleton)
