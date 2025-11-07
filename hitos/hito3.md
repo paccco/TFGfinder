@@ -84,3 +84,13 @@ const app = Fastify({
 ```
 
 Una vez hecho esto se vuelve a cosntruir el docker y nos quedaría tal que así:
+![Captura de logs]([../imagenes/hito3/logs.png](https://github.com/paccco/TFGfinder/blob/main/imagenes/hito3/logs.png))
+
+```bash
+{"level":30,"time":1762540585857,"pid":34,"hostname":"1e919be5c199","msg":"Server listening at http://127.0.0.1:3000"}
+{"level":30,"time":1762540585858,"pid":34,"hostname":"1e919be5c199","msg":"Server listening at http://172.18.0.3:3000"}
+{"level":30,"time":1762540603254,"pid":34,"hostname":"1e919be5c199","reqId":"req-1","req":{"method":"GET","url":"/pantallaPrin.html","host":"localhost:3000","remoteAddress":"172.18.0.1","remotePort":53014},"msg":"incoming request"}
+{"level":30,"time":1762540603264,"pid":34,"hostname":"1e919be5c199","reqId":"req-1","res":{"statusCode":302},"responseTime":9.824678000062704,"msg":"request completed"}
+{"level":30,"time":1762540603268,"pid":34,"hostname":"1e919be5c199","reqId":"req-2","req":{"method":"GET","url":"/login.html","host":"localhost:3000","remoteAddress":"172.18.0.1","remotePort":53014},"msg":"incoming request"}
+{"level":30,"time":1762540603271,"pid":34,"hostname":"1e919be5c199","reqId":"req-2","res":{"statusCode":200},"responseTime":2.701750000938773,"msg":"request completed"}
+```
