@@ -86,6 +86,7 @@ const app = Fastify({
 Una vez hecho esto se vuelve a cosntruir el docker y nos quedaría tal que así:
 ![Captura de logs](https://github.com/paccco/TFGfinder/blob/main/imagenes/hito3/logs.png)
 
+Así nos quedaria en texto en los archivos .log de la carpeta log:
 ```bash
 {"level":30,"time":1762540585857,"pid":34,"hostname":"1e919be5c199","msg":"Server listening at http://127.0.0.1:3000"}
 {"level":30,"time":1762540585858,"pid":34,"hostname":"1e919be5c199","msg":"Server listening at http://172.18.0.3:3000"}
