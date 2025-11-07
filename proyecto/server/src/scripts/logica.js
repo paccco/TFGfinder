@@ -1,49 +1,43 @@
 import bdInstance from "./conexionBD.js";
 
-//MIDDLEWARES
-export async function checkAuth(request, reply) {
-    if (!request.session.user) {
-      const acceptsJson = request.headers.accept?.includes('application/json');
-      if (acceptsJson) {
-        return reply.code(401).send({ error: 'No autorizado. Inicie sesión.' });
-      } else {
-        return reply.redirect('/login.html');
-      }
-    }
+
+class Logica{
+  // ------- OPERACIONES EN LA BD --------------------
+
+  // SELECTS
+
+  async iniciarSesion(nombre, password) {
+    return await bdInstance.iniciarSesion(nombre, password);
   }
 
-// TRANSFORMAR HTMLs
-
-export function TFGinHTML(rows, tipo) {
-  let tfgsHtml = '';
-  if (rows.length > 0) {
-      tfgsHtml = rows.map(tfg => {
-          const esProfesor = (tipo === 1);
-
-          const deleteButtonHtml = esProfesor
-              ? `<button 
-                  class="delete-button" 
-                  onclick="window.location.href='/borrarTfg?nombre=' + encodeURIComponent('${tfg.nombre}')">
-                  Eliminar 🗑️
-                </button>`
-              : ''; 
-
-          return `
-          <div class="tfg-card">
-              <h2>${tfg.nombre}</h2>
-              <p>${tfg.descripcion}</p>
-              <button 
-                class="like-button"
-                onclick="window.location.href='/likeTFG?nombre=' + encodeURIComponent('${tfg.nombre}')">
-                Me gusta 👍
-              </button>
-              ${deleteButtonHtml} 
-          </div>
-          `;
-      }).join('');
-  } else {
-      tfgsHtml = '<p>No hay nuevos TFGs para mostrar.</p>';
+  async chatsUsuarioLite(usuario) {
+    return await bdInstance.getChatsUsuarioLite(usuario);
   }
 
-  return tfgsHtml;
+  async tfgsNoVistos(usuario) {
+    return await bdInstance.getTFGnoVistos(usuario);
+  }
+
+  // INSERTS
+
+  async crearUsuario(nombre, password, tipo) {
+    return await bdInstance.insertUsuario(nombre, password, tipo);
+  }
+
+  async subirTFG(nombre, descripcion) {
+    return await bdInstance.insertTFG(nombre, descripcion);
+  }
+
+  async likeTFG(usuario, tipo, tfg) {
+    return await bdInstance.insertLike(usuario, tipo, tfg);
+  }
+
+  // DELETES
+  
+  async borrarTFG(nombre) {
+    return await bdInstance.delTFG(nombre);
+  }
+
 }
+
+export default new Logica();

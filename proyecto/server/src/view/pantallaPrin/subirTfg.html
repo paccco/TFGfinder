@@ -112,14 +112,10 @@
             messageDiv.textContent = '';
             messageDiv.className = '';
 
-            // 2. Recoge los datos del formulario
             const formData = new FormData(tfgForm);
             
             console.log("Formulario enviado:", Object.fromEntries(formData.entries()));
 
-            // 3. Convierte los datos a un objeto simple
-            //    Gracias a name="nombre" y name="descripcion",
-            //    esto creará: { nombre: "...", descripcion: "..." }
             const data = Object.fromEntries(formData.entries());
 
             if (!data.nombre || !data.descripcion) {

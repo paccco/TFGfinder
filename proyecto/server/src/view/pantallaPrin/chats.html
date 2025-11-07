@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Chats</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5; 
+        }
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between; 
+            padding: 10px 20px;
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .header-center{
+            display: flex;
+            align-items: center;
+        }
+    
+        
+        h1 {
+            font-size: 20px;
+            margin: 0;
+        }
+        
+        /* --- ESTILOS DE BOTONES AZULES --- */
+        .nuevo-tfg-btn,
+        .chats-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            text-decoration: none; 
+        }
+        
+        .nuevo-tfg-btn:hover,
+        .chats-btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* --- CONTENIDO PRINCIPAL --- */
+        main {
+            padding: 20px;
+            max-width: 900px; /* Ancho máximo centrado */
+            margin: 0 auto;
+        }
+        
+        .page-title {
+            text-align: center;
+            color: #333;
+            margin-top: 0;
+            margin-bottom: 24px;
+        }
+
+        /* --- ESTILOS PARA LA LISTA DE CHATS --- */
+        
+        .chat-list-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px; /* Espacio entre tarjetas de chat */
+        }
+        
+        .chat-item-card {
+            display: flex;
+            align-items: center;
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 16px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            text-decoration: none; /* Los chats son enlaces */
+            color: inherit; /* Hereda el color de texto normal */
+            transition: box-shadow 0.2s, border-color 0.2s;
+        }
+        .chat-item-card:hover {
+            /* Sutil resaltado al pasar el ratón */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+            border-color: #007bff; /* Coincide con el color del botón */
+        }
+
+        .chat-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background-color: #007bff; /* Color placeholder */
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+            margin-right: 16px;
+            flex-shrink: 0; /* Evita que el avatar se encoja */
+        }
+
+        .chat-content {
+            flex-grow: 1; /* Ocupa el espacio disponible */
+            min-width: 0; /* Evita desbordamiento de texto */
+        }
+
+        
+        .chat-name {
+            margin: 0 0 4px 0; /* Asegúrate de que tenga un margen inferior */
+            font-size: 16px;
+            color: #333;
+        }
+        
+        .chat-tfg-title {
+            font-size: 14px;
+            color: #666; /* Un color gris secundario */
+            margin: 0; /* Quita el margen por defecto del <p> */
+            line-height: 1.3;
+            
+            /* Para cortar texto largo si es necesario */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <!-- Grupo Central -->
+        <div class="header-center">
+            <!-- Botón cambiado para volver a la página principal -->
+            <a href="/pantallaPrin.html" class="chats-btn">Volver a TFGs</a>
+        </div>
+    </header>
+
+    <main>
+        <h1 class="page-title">Mis Chats</h1>
+        
+        <div class="chat-list-container">
+            
+            <!-- Aquí se podrían cargar dinámicamente más chats -->
+            
+        </div>
+    </main>
+</body>
+</html>

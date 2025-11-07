@@ -13,38 +13,40 @@
         header {
             display: flex;
             align-items: center;
+            justify-content: space-between; 
             padding: 10px 20px;
             background-color: #ffffff;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         
-        /* --- ESTILO BOTÓN LOGOUT AÑADIDO --- */
+        .header-left, .header-center, .header-right {
+            display: flex;
+            align-items: center;
+        }
+        
         .logout-btn {
             background: none;
             border: none;
-            color: #dc3545; /* Un color rojo para la acción de salir */
+            color: #dc3545;
             font-weight: bold;
             cursor: pointer;
             font-family: Arial, sans-serif;
-            font-size: 14px; /* Tamaño de fuente estándar */
-            margin-right: 15px; /* Espacio entre el botón y el icono de casa */
+            font-size: 14px;
+            margin-right: 15px; 
             padding: 0;
         }
         .logout-btn:hover {
             text-decoration: underline;
         }
-        /* --- FIN ESTILO LOGOUT --- */
-
-        .icono-casa {
-            font-size: 24px;
-            margin-right: 10px;
-        }
+    
+        
         h1 {
             font-size: 20px;
             margin: 0;
         }
         
-        .nuevo-tfg-btn {
+        .nuevo-tfg-btn,
+        .chats-btn {
             background-color: #007bff;
             color: white;
             border: none;
@@ -52,9 +54,11 @@
             border-radius: 4px;
             cursor: pointer;
             font-weight: bold;
-            margin-left: auto; 
+            text-decoration: none; 
         }
-        .nuevo-tfg-btn:hover {
+        
+        .nuevo-tfg-btn:hover,
+        .chats-btn:hover {
             background-color: #0056b3;
         }
 
@@ -64,7 +68,6 @@
             margin: 0 auto;
         }
         
-        /* --- ESTILOS PARA LAS TARJETAS DE TFG --- */
         .tfg-card {
             background-color: #ffffff;
             border: 1px solid #ddd;
@@ -93,22 +96,26 @@
         .like-button:hover {
             background-color: #0056b3;
         }
-        /* --- Fin de estilos para tarjetas --- */
     </style>
 </head>
 <body>
     <header>
-        <button class="logout-btn" >Cerrar Sesión</button>
+        <div class="header-left">
+            <button class="logout-btn" >Cerrar Sesión</button>
+            <h1>Mi Página</h1>
+        </div>
         
-        <span class="icono-casa">🏠</span>
-        <h1>Mi Página</h1>
-        
-        <a href="/subirTfg.html" class="nuevo-tfg-btn">Subir idea de TFG</a>
+        <div class="header-center">
+            <a href="/pantallaPrin/chats.html" class="chats-btn">Ver mis chats</a>
+        </div>
+
+        <div class="header-right">
+            <a href="/pantallaPrin/subirTfg.html" class="nuevo-tfg-btn">Subir idea de TFG</a>
+        </div>
     </header>
 
     <main>
         <div id="tfg-container-placeholder"></div>
-        
     </main>
 
     <script>
