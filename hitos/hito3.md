@@ -95,3 +95,7 @@ Así nos quedaria en texto en los archivos .log de la carpeta log:
 {"level":30,"time":1762540603268,"pid":34,"hostname":"1e919be5c199","reqId":"req-2","req":{"method":"GET","url":"/login.html","host":"localhost:3000","remoteAddress":"172.18.0.1","remotePort":53014},"msg":"incoming request"}
 {"level":30,"time":1762540603271,"pid":34,"hostname":"1e919be5c199","reqId":"req-2","res":{"statusCode":200},"responseTime":2.701750000938773,"msg":"request completed"}
 ```
+## Test
+
+Se implementaron la creación de chats aquí los resultados de las pruebas:
+![Captura de test](https://github.com/paccco/TFGfinder/blob/main/imagenes/hito3/test.png)
