@@ -9,6 +9,7 @@ import { fileURLToPath } from 'url';
 import fastifyStatic from '@fastify/static';
 import fastifyCookie from '@fastify/cookie';
 import fastifySession from '@fastify/session';
+import fastifyMetrics from 'fastify-metrics';
 
 const __filename = fileURLToPath(import.meta.url); // Ruta al archivo actual (index.js)
 const __dirname = path.dirname(__filename)
@@ -44,8 +45,11 @@ const app = Fastify({
   }
 });
 
-app.register(scriptsRoutes);
+app.register(fastifyMetrics, {
+  endpoint: '/metrics' // Esta es la ruta que visitará Prometheus
+});
 
+app.register(scriptsRoutes);
 app.register(fastifyCookie);
 app.register(fastifySession, {
   // ¡MUY IMPORTANTE! Añade SESSION_SECRET a tu archivo /app/ini.env

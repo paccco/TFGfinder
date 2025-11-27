@@ -33,3 +33,44 @@ services:
       - /app/node_modules
     depends_on:
       - mariadb
+
+  grafana:
+    image: grafana/grafana-oss:latest
+    container_name: grafana_dashboard
+    restart: always
+    ports:
+      - "3001:3000" # Mapeamos al 3001 porque el 3000 lo usa fastify  
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin      # Usuario inicial
+      - GF_SECURITY_ADMIN_PASSWORD=admin  # Contraseña inicial
+    volumes:
+      - grafana_data:/var/lib/grafana     # Volumen para persistir dashboards y usuarios
+    depends_on:
+      - mariadb
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus_metrics
+    restart: always
+    ports:
+      - "9090:9090"
+    volumes:
+      # Necesitas crear este archivo localmente primero (ver paso 2)
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+
+  mysqld-exporter:
+    image: prom/mysqld-exporter:latest
+    container_name: mysqld_exporter
+    restart: always
+    ports:
+      - "9104:9104"
+    volumes:
+      - ./my.cnf:/etc/my.cnf
+    command:
+      - '--config.my-cnf=/etc/my.cnf'
+    depends_on:
+      - mariadb
+
+# Definimos el volumen persistente para Grafana
+volumes:
+  grafana_data:
