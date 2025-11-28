@@ -180,3 +180,16 @@ El pipeline se ejecuta secuencialmente realizando las siguientes operaciones cr�
   > Crea la imagen Docker usando los archivos de la carpeta `./proyecto/server` y la sube inmediatamente a tu registro.
 
 ![Foto imagen](https://github.com/paccco/TFGfinder/blob/main/imagenes/hito4/imagenCreada.png)
+
+## Orquestación de Servicios
+**Archivo:** `docker-compose.yaml`
+
+Define la infraestructura completa de la aplicación, integrando el backend, base de datos y el stack de monitorización en una red unificada.
+
+| Servicio | Contenedor | Puerto Ext. | Descripción | Persistencia/Config |
+| :--- | :--- | :--- | :--- | :--- |
+| **mariadb** | `mariadb_db` | **3306** | Base de datos principal. | `./bd` (Datos persistentes) |
+| **fastify** | `fastify_server` | **3000** | API Backend (Node.js) + Métricas. | `./server` (Hot-reload) |
+| **grafana** | `grafana_dashboard`| **3001** | Visualización (Dashboards). | `grafana_data` (Volumen) |
+| **prometheus** | `prometheus_metrics`| **9090** | Agregador de métricas. | `./prometheus.yml` (Config) |
+| **exporter** | `mysqld_exporter` | **9104** | Adaptador de métricas SQL. | `./my.cnf` (Credenciales) |
