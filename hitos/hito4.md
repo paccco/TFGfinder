@@ -161,3 +161,22 @@ CMD ["npm", "run", "start"]
 > **Justificación Técnica:**
 > * **EXPOSE 3000:** Documenta explícitamente que el contenedor escuchará peticiones en el puerto `3000`. Sirve como documentación viva y referencia para configurar el `docker-compose.yml`.
 > * **CMD:** Define el comando de ejecución por defecto. Se utiliza el script `start` definido en el `package.json` para iniciar el servidor Fastify en modo producción.
+
+## Subida automática del contenedor
+### Flujo de Trabajo: Docker Publish
+
+El pipeline se ejecuta secuencialmente realizando las siguientes operaciones críticas:
+
+* **1. Preparación del Entorno (Checkout)**
+  > Descarga tu código fuente en la máquina virtual para poder trabajar con él.
+
+* **2. Sanitización de Variables**
+  > Ejecuta un comando rápido para corregir el nombre del repositorio (`Paccco` -> `paccco`), ya que Docker prohíbe las mayúsculas.
+
+* **3. Autenticación (Login)**
+  > Se conecta a **GitHub Packages** (`ghcr.io`) usando credenciales automáticas para obtener permisos de escritura.
+
+* **4. Despliegue (Build & Push)**
+  > Crea la imagen Docker usando los archivos de la carpeta `./proyecto/server` y la sube inmediatamente a tu registro.
+
+![Foto imagen](https://github.com/paccco/TFGfinder/blob/main/imagenes/hito4/imagenCreada.png)
