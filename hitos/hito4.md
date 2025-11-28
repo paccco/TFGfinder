@@ -92,3 +92,72 @@ Solo se exponen al host los puertos estrictamente necesarios para la interacció
 **Justificación de la Configuración:**
 
 - **Seguridad (`my.cnf`):** Se monta un archivo de configuración `.cnf`. Esto es una práctica de seguridad para ocultar credenciales
+
+# 🐳 Documentación del Dockerfile (Microservicio Backend)
+
+El archivo `Dockerfile`, ubicado en `./server/Dockerfile`, define el entorno de ejecución para la API REST (`fastify-server`).
+
+A continuación, se detalla y justifica cada instrucción utilizada:
+
+---
+
+### 1. Selección de la Imagen Base
+
+```dockerfile
+FROM node:lts-alpine
+```
+
+> **Justificación Técnica:**
+> * **Versión LTS (Long Term Support):** Se utiliza la versión de soporte a largo plazo de Node.js.
+> * **Distribución Alpine Linux:** Se opta por la variante `alpine` en lugar de distribuciones completas como Debian o Ubuntu. Alpine es extremadamente ligera (**aprox. 5MB base** + Node), lo que reduce drásticamente la superficie de ataque y agiliza la transferencia de contenedores por la red.
+
+---
+
+### 2. Definición del Directorio de Trabajo
+
+```dockerfile
+WORKDIR /app
+```
+
+> **Justificación Técnica:**
+> * **Aislamiento:** Establece `/app` como el directorio raíz dentro del contenedor. Esto aísla los archivos de la aplicación de la raíz del sistema operativo, facilitando la organización y evitando conflictos accidentales con archivos del sistema Linux.
+
+---
+
+### 3. Gestión de Dependencias y Estrategia de Caché
+
+Esta sección es crítica para la eficiencia del ciclo de desarrollo (CI/CD).
+
+```dockerfile
+COPY package*.json ./
+RUN npm install
+```
+
+> **Justificación Técnica (Layer Caching):**
+> * **Copia Selectiva:** Se copian exclusivamente los archivos de definición (`package.json` y `package-lock.json`) *antes* de copiar el código fuente.
+> * **Beneficio:** Docker construye imágenes por capas. Al separar la instalación, Docker puede **cachear** la capa resultante de `npm install`.
+> * **Resultado:** Si modificas el código fuente (`.js`) pero no añades nuevas librerías, Docker reutilizará la carpeta `node_modules` ya construida, reduciendo el tiempo de *re-build* de varios minutos a **pocos segundos**.
+
+---
+
+### 4. Incorporación del Código Fuente
+
+```dockerfile
+COPY . .
+```
+
+> **Justificación Técnica:**
+> * **Integración:** Una vez que las dependencias están instaladas y la capa anterior asegurada en caché, se copia la totalidad del código fuente del proyecto al directorio de trabajo del contenedor.
+
+---
+
+### 5. Exposición y Comando de Arranque
+
+```dockerfile
+EXPOSE 3000
+CMD ["npm", "run", "start"]
+```
+
+> **Justificación Técnica:**
+> * **EXPOSE 3000:** Documenta explícitamente que el contenedor escuchará peticiones en el puerto `3000`. Sirve como documentación viva y referencia para configurar el `docker-compose.yml`.
+> * **CMD:** Define el comando de ejecución por defecto. Se utiliza el script `start` definido en el `package.json` para iniciar el servidor Fastify en modo producción.
