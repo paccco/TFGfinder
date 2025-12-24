@@ -35,3 +35,38 @@ La decisión de utilizar **Azure Container Apps (vía GitHub Student Pack)** se 
 * **🔌 Ecosistema Nativo:** La integración con GitHub y VS Code reduce drásticamente el tiempo de despliegue a producción.
 
 ---
+
+# Descripción y Justificación de las Herramientas de Despliegue
+
+---
+
+## 🧰 Stack de Herramientas Utilizadas
+
+### 1. 🐳 Docker Desktop / Docker Engine
+**Descripción:** Motor de contenedores utilizado para empaquetar la aplicación, sus dependencias y su configuración en una imagen inmutable.
+* **Justificación:** Permite garantizar que la aplicación funcione exactamente igual en el entorno de desarrollo local que en la nube de Azure.
+
+### 2. 🏗️ Azure Container Registry (ACR)
+**Descripción:** Servicio de registro de Docker privado gestionado por Microsoft.
+* **Justificación:** Se utiliza para almacenar y gestionar nuestras imágenes de contenedor de forma segura. Al ser un servicio nativo de Azure, la integración con *Container Apps* es inmediata y ofrece una latencia mínima en el despliegue.
+
+### 3. 🖥️ Azure CLI (Command Line Interface) o GUI(Graphic User Interface)
+**Descripción:** Herramienta de comandos para interactuar con los recursos de Azure desde la terminal.
+* **Justificación:** A priori se prefiere el uso de la CLI sobre el portal web (GUI) por su capacidad de **automatización y transparencia**. Permite documentar los pasos exactos del despliegue en este trabajo, facilitando la reproducibilidad del proyecto.
+
+### 4. 🔗 GitHub Actions (CI/CD)
+**Descripción:** Plataforma de automatización integrada en GitHub para ejecutar flujos de trabajo.
+* **Justificación:** Permite implementar un flujo de **Integración y Despliegue Continuo**. Cada vez que realizamos un `push` al repositorio, la herramienta construye la imagen de Docker, la sube al registro y actualiza la aplicación en Azure automáticamente.
+
+---
+
+## 📊 Resumen de Herramientas y su Función
+
+| Herramienta | Función Principal | Justificación Académica |
+| :--- | :--- | :--- |
+| **Docker** | Empaquetado de App | Consistencia de entornos y portabilidad. |
+| **Azure CLI** | Gestión de Recursos | Automatización y documentación técnica. |
+| **ACR** | Almacenamiento de Imágenes | Seguridad y despliegue nativo en Azure. |
+| **GitHub Actions** | Automatización (CI/CD) | Demostración de flujo DevOps profesional. |
+
+---
