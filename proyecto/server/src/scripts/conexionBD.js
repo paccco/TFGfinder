@@ -95,6 +95,37 @@ class BD {
   }
 
   /**
+   * Obtiene la información básica de un chat específico por su ID.
+   * @param {number|string} id - El identificador único del chat.
+   * @returns {Promise<Array<object>>} Un array que contiene la información del chat (tfg, profesor, alumno).
+   */
+  async getChatInfo(id) {
+    const [rows] = await this.#pool.execute(`
+      SELECT tfg, profesor, alumno
+      FROM Chats
+      WHERE id = ?;
+    `, [id]);
+    
+    return rows;
+  }
+
+  /**
+   * Obtiene el historial completo de mensajes de un chat, ordenado cronológicamente.
+   * @param {number|string} chatId - El identificador del chat.
+   * @returns {Promise<Array<object>>} Un array de objetos de mensajes (id, autor, contenido, envío).
+   */
+  async getMensajesChat(chatId) {
+    const [rows] = await this.#pool.execute(`
+      SELECT id, chat_id, autor, contenido, envio
+      FROM Mensajes
+      WHERE chat_id = ?
+      ORDER BY envio ASC;
+    `, [chatId]);
+    
+    return rows;
+  }
+
+  /**
    * Inserta un nuevo usuario en la base de datos.
    * @param {string} nombre - El nombre de usuario (debe ser único).
    * @param {string} password - La contraseña.
@@ -188,6 +219,15 @@ class BD {
       
       // Devuelve si el LIKE original se insertó
       return resultadoInsert;
+  }
+
+  async insertMensaje(chatId, autor, contenido) {
+    const [result] = await this.#pool.execute(
+      'INSERT INTO Mensajes (chat_id, autor, contenido) VALUES (?, ?, ?)',
+      [chatId, autor, contenido]
+    );
+
+    return result.affectedRows === 1;
   }
 
   /**

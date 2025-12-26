@@ -144,7 +144,7 @@ function ChatsEnHTML(rows, user) {
 
       // Plantilla de la tarjeta de chat
       return `
-      <a href="/chat/${chat.id}" class="chat-item-card">
+      <a href="/pantallaPrin/chat/${chat.id}" class="chat-item-card">
           <div class="chat-avatar">${avatar}</div>
           <div class="chat-content">
               <h2 class="chat-name">${otraPersonaNombre}</h2>
@@ -153,6 +153,34 @@ function ChatsEnHTML(rows, user) {
       </a>
       `;
   }).join(''); 
+}
+
+/**
+ * Genera el HTML para los mensajes dentro de una conversación de chat.
+ * @param {Array} chat - Un array que contiene [infoChat, mensajes].
+ * @param {string} destinatario - El nombre del usuario con el que se está chateando.
+ * @returns {string} Un string de HTML con las burbujas de mensajes (enviados/recibidos).
+ */
+function chattingEnHTML(chat, destinatario) {
+  const [chatInfo, mensajes] = chat;
+  let mensajesHtml = '';
+
+  if (mensajes.length > 0) {
+      mensajesHtml = mensajes.map(msg => {
+          const esMio = (msg.autor !== destinatario);
+
+          return `
+          <div class="message ${esMio ? 'sent' : 'recieved'}">
+              ${msg.contenido}
+              <span class="time">${new Date(msg.envio).toLocaleString()}</span>
+          </div>
+          `;
+      }).join('');
+  } else {
+      mensajesHtml = '<p>No hay mensajes en este chat.</p>';
+  }
+
+  return mensajesHtml;
 }
 
 /**
@@ -383,6 +411,69 @@ export default async function (fastify, options) {
       } catch (error) {
           console.error("Error al cargar la página de chats:", error);
           res.code(500).send("Error interno del servidor");
+      }
+    }
+  );
+
+  /**
+   * @route GET /pantallaPrin/chat/:chatId
+   * Ruta protegida que sirve la interfaz de un chat específico.
+   * Carga el historial de mensajes y dinamiza el nombre del destinatario en la cabecera.
+   */
+  fastify.get('/pantallaPrin/chat/:chatId',
+    {
+      onRequest: [checkAuth]
+    },
+    async (req, res) => {
+      try {
+        const chatId = req.params.chatId;
+        const chat = await logica.chat(chatId);
+        const userNombre = req.session.user.nombre;
+        const destinatario = (chat[0][0].profesor === userNombre)
+          ? chat[0][0].alumno
+          : chat[0][0].profesor;
+        const html = readFileSync(join(__dirname, '../view/pantallaPrin/chat.html'), 'utf8').replace(
+          'NOMBRE_USER',
+          destinatario
+        );
+        const mensajesHtml = chattingEnHTML(chat,destinatario);
+        const finalHtml = html.replace(
+          '<!-- Los mensajes se cargarán aquí dinámicamente -->',
+          mensajesHtml
+        );
+        res.type('text/html').send(finalHtml);
+      } catch (error) {
+        console.error("Error al cargar la página de chat:", error);
+        res.code(500).send("Error interno del servidor");
+      }
+    }
+  );
+
+  /**
+   * @route POST /enviarMensaje
+   * Ruta protegida que procesa el envío de un nuevo mensaje.
+   * Tras insertar el mensaje, redirige al usuario de vuelta a la vista del chat.
+   */
+  fastify.post('/enviarMensaje',
+    {
+      onRequest: [checkAuth],
+    },
+    async (req, res) => {
+      console.log(req.body);
+      const { chatId, contenido } = req.body;
+      console.log('chatId:', chatId, 'contenido:', contenido);
+      const autor = req.session.user.nombre;
+
+      try {
+        const exito = await logica.enviarMensaje(chatId, autor, contenido);
+        if (exito) {
+          res.redirect(`/pantallaPrin/chat/${chatId}`);
+        } else {
+          res.code(500).send("Error al enviar el mensaje");
+        }
+      } catch (error) {
+        console.error("Error al enviar el mensaje:", error);
+        res.code(500).send("Error interno del servidor");
       }
     }
   );

@@ -45,6 +45,26 @@ class Logica{
   }
 
   /**
+   * Obtiene la información completa de un chat, incluyendo sus metadatos y el historial de mensajes.
+   * @param {number|string} id - El identificador único del chat.
+   * @returns {Promise<Array>} Un array que contiene [informacionDelChat, listaDeMensajes].
+   */
+  async chat(id) {
+    return [await bdInstance.getChatInfo(id), await bdInstance.getMensajesChat(id)];
+  }
+
+  /**
+   * Gestiona el envío de un mensaje delegando la inserción a la capa de base de datos.
+   * @param {number|string} chatId - El identificador del chat donde se envía el mensaje.
+   * @param {string} autor - El nombre del usuario que redacta el mensaje.
+   * @param {string} contenido - El cuerpo de texto del mensaje.
+   * @returns {Promise<boolean>} True si el mensaje se registró correctamente en la base de datos.
+   */
+  async enviarMensaje(chatId, autor, contenido) {
+    return await bdInstance.insertMensaje(chatId, autor, contenido);
+  }
+
+  /**
    * Obtiene los TFGs que un usuario NO ha visto (no les ha dado like).
    * @param {string} usuario - El nombre del usuario.
    * @returns {Promise<Array<object>>} Array de objetos TFG.
