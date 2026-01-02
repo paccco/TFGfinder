@@ -1,0 +1,38 @@
+name: Deploy TFGfinder to DigitalOcean
+
+on:
+  push:
+    branches:
+      - main  # Se ejecutará cada vez que se haga push a esta rama
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v4
+
+      - name: Despliegue mediante SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.DROPLET_IP }}
+          username: ${{ secrets.DROPLET_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            # 1. Clonar el repositorio si no existe, o entrar si ya está
+            if [ ! -d "/root/TFGfinder" ]; then
+              git clone https://github.com/paccco/TFGfinder.git /root/TFGfinder
+            fi
+            
+            cd /root/TFGfinder
+            
+            # 2. Actualizar a la última versión del código
+            git pull origin main
+            
+            # 3. Moverse a la carpeta donde está el docker-compose.yaml
+            cd proyecto
+            
+            # 4. Re-levantar el stack completo
+            # Usamos --build para asegurar que los cambios en /server se apliquen
+            docker compose down
+            docker compose up -d --build
