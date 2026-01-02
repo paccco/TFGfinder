@@ -138,3 +138,22 @@ jobs:
 ```
 
 Ya estaría listo la CI directa al IaaS
+
+## 📊 Resultados de las Pruebas de Carga (Load Testing)
+
+Para la prueba se ha ejecutado en la maquina local del desarrollador el siguiente comando:
+`sudo docker run --rm jordi/ab -n 1000 -c 50 http://64.226.104.128:3000/`
+
+Se han realizado pruebas de estrés para validar la robustez de la infraestructura en **DigitalOcean**. A continuación se detallan los resultados obtenidos tras el envío de 1,000 peticiones con una concurrencia de 50 usuarios:
+
+| Métrica Clave | Valor Obtenido | Interpretación Técnica |
+| :--- | :--- | :--- |
+| **Peticiones por Segundo (RPS)** | 109.32 [#/sec] | Capacidad de procesar más de 100 usuarios por segundo de forma sostenida. |
+| **Tasa de Fallos** | 0% (0 Failed) | El servidor respondió correctamente al 100% de las peticiones bajo presión. |
+| **Tiempo Medio de Respuesta** | 457.37 ms | Latencia aceptable para una carga de 50 usuarios concurrentes. |
+| **Percentil 90 (P90)** | 1,425 ms | El 90% de los usuarios recibió respuesta en menos de 1.5 segundos. |
+| **Tiempo Máximo de Espera** | 2,956 ms | El peor caso no superó los 3 segundos, indicando que no hubo colapsos críticos. |
+
+## Dominio de la app
+
+Se puede comprobar el funcionamiento de la app en [http://64.226.104.128:3000]
