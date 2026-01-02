@@ -1,72 +1,73 @@
-## 📑 Criterios de Selección (Justificación)
+# 📑 Criterios de Selección y Justificación de Despliegue
+
+---
+
+## 🎯 Pilares de Selección
 
 Para determinar la plataforma ideal para desplegar nuestra aplicación en contenedores, se han priorizado los siguientes cuatro pilares:
 
-1.  **💰 Sostenibilidad Económica:** Se usarán modelos que nos proporcionen coste cero en el entorno y contexto dado
-    
-2.  **🏗️ Abstracción y Facilidad de Gestión (PaaS vs IaaS):** Un IaaS ofrece control total, un **PaaS (Plataforma como Servicio)** permite centrarse en el código y el contenedor, delegando la gestión del sistema operativo y la red al proveedor.
-
-3.  **📈 Eficiencia y Escalado:** Se busca que la plataforma permita el **"escalado a cero" (Serverless)**. Esto asegura que los recursos solo se consuman cuando hay tráfico activo, optimizando al máximo los créditos gratuitos.
-
-4.  **🔄 Integración con el Flujo de Trabajo (CI/CD):** La capacidad de conectar el repositorio de GitHub y automatizar el despliegue del contenedor.
+1.  **💰 Sostenibilidad Económica:** Uso de modelos que proporcionen coste cero mediante créditos académicos (GitHub Student Pack).
+2.  **🏗️ Abstracción y Gestión (PaaS vs IaaS):** Se prioriza un **PaaS (Platform as a Service)** para centrarse en el código y el contenedor, delegando la gestión de infraestructura al proveedor.
+3.  **📈 Eficiencia y Escalado:** Optimización de recursos para garantizar que los créditos cubran todo el periodo lectivo.
+4.  **🔄 Integración CI/CD:** Capacidad de conectar el repositorio de GitHub y automatizar el despliegue del contenedor de forma nativa.
 
 ---
 
-## 🔍 Evaluación de Opciones Valoradas
-
-Se han analizado las siguientes opciones bajo los criterios anteriormente descritos:
+## 🔍 Evaluación de Opciones
 
 | Opción | Modelo | Evaluación Técnica | Decisión |
 | :--- | :--- | :--- | :--- |
-| **Oracle Cloud** | IaaS | Gran potencia (24GB RAM). Requiere gestión manual de seguridad, Docker y parches del SO. | **Descartado** por alta carga administrativa. |
-| **Render / Northflank** | PaaS | Muy sencillos de usar. Sin embargo, los planes gratuitos presentan limitaciones en disponibilidad y latencia. | **Finalista** por simplicidad. |
-| **Google Cloud (Run)** | PaaS | Excelente modelo Serverless, pero la gestión de permisos (IAM) es compleja para un proyecto rápido. | **Finalista** por robustez. |
-| **Azure (Container Apps)** | **PaaS** | **Ganador.** Equilibrio entre crédito gratuito (100 USD), escalado a cero (KEDA) y nivel gratuito de 2M de peticiones. | **Elegido para el proyecto.** |
+| **Oracle Cloud** | IaaS | Gran potencia. Requiere gestión manual de parches, Docker y redes. | **Descartado** |
+| **Render / Northflank** | PaaS | Muy sencillos. Los planes gratuitos suspenden la app por inactividad. | **Finalista** |
+| **Google Cloud (Run)** | PaaS | Excelente Serverless, pero la gestión de permisos (IAM) es compleja. | **Finalista** |
+| **DigitalOcean** | **PaaS** | **Equilibrio ideal: Crédito de 200 USD, App Platform intuitivo y registro integrado.** | **🏆 Elegido** |
 
 ---
 
-## ✅ Justificación de la Elección Final: Azure Container Apps
+## ✅ Justificación: DigitalOcean App Platform
 
-La decisión de utilizar **Azure Container Apps (vía GitHub Student Pack)** se justifica por los siguientes puntos clave:
+> [!TIP]
+> **¿Por qué DigitalOcean?**
+> La elección se basa en la simplicidad operativa y la generosidad de los créditos del *GitHub Student Developer Pack*.
 
-* **🛡️ Acceso Universal:** El acceso mediante el pack de estudiante elimina la barrera económica.
-* **⚙️ Modernidad Tecnológica:** Al estar basado en Kubernetes pero ser gestionado, permite trabajar con herramientas importantes mencionadas en la asignatura.
-* **🔋 Eficiencia Energética y de Crédito:** El escalado dinámico garantiza que el crédito de 100 USD dure todo el periodo lectivo, ya que la aplicación solo "consume" mientras está siendo evaluada.
-* **🔌 Ecosistema Nativo:** La integración con GitHub y VS Code reduce drásticamente el tiempo de despliegue a producción.
-
----
-
-# Descripción y Justificación de las Herramientas de Despliegue
+* **🛡️ Acceso Universal:** El crédito de **200 USD** elimina la barrera económica por completo.
+* **⚙️ Modernidad:** Permite trabajar con **App Platform**, abstrayendo la complejidad de Kubernetes pero manteniendo la potencia de los contenedores.
+* **🔋 Eficiencia:** La gestión de recursos permite mantener múltiples servicios activos sin agotar el presupuesto.
+* **🔌 Ecosistema:** La integración nativa con la CLI `doctl` y GitHub Actions reduce drásticamente los tiempos de despliegue.
 
 ---
 
-## 🧰 Stack de Herramientas Utilizadas
+# 🧰 Stack de Herramientas de Despliegue
 
-### 1. 🐳 Docker Desktop / Docker Engine
-**Descripción:** Motor de contenedores utilizado para empaquetar la aplicación, sus dependencias y su configuración en una imagen inmutable.
-* **Justificación:** Permite garantizar que la aplicación funcione exactamente igual en el entorno de desarrollo local que en la nube de Azure.
+### 1. 🐳 Docker Desktop / Engine
+* **Función:** Motor para empaquetar la aplicación y sus dependencias en imágenes inmutables.
+* **Justificación:** Garantiza la paridad total entre el entorno de desarrollo y el de producción.
 
-### 2. 🏗️ Azure Container Registry (ACR)
-**Descripción:** Servicio de registro de Docker privado gestionado por Microsoft.
-* **Justificación:** Se utiliza para almacenar y gestionar nuestras imágenes de contenedor de forma segura. Al ser un servicio nativo de Azure, la integración con *Container Apps* es inmediata y ofrece una latencia mínima en el despliegue.
+### 2. 🏗️ DigitalOcean Container Registry (DOCR)
+* **Función:** Almacenamiento privado y seguro de imágenes Docker.
+* **Justificación:** Al ser nativo, la latencia de despliegue es mínima y la seguridad está integrada con el ecosistema de la plataforma.
 
-### 3. 🖥️ Azure CLI (Command Line Interface) o GUI(Graphic User Interface)
-**Descripción:** Herramienta de comandos para interactuar con los recursos de Azure desde la terminal.
-* **Justificación:** A priori se prefiere el uso de la CLI sobre el portal web (GUI) por su capacidad de **automatización y transparencia**. Permite documentar los pasos exactos del despliegue en este trabajo, facilitando la reproducibilidad del proyecto.
+### 3. 🖥️ DigitalOcean CLI (`doctl`)
+* **Función:** Interfaz de línea de comandos para gestionar recursos.
+* **Justificación:** Permite la **automatización y documentación** técnica del proceso, facilitando la reproducibilidad del proyecto.
 
 ### 4. 🔗 GitHub Actions (CI/CD)
-**Descripción:** Plataforma de automatización integrada en GitHub para ejecutar flujos de trabajo.
-* **Justificación:** Permite implementar un flujo de **Integración y Despliegue Continuo**. Cada vez que realizamos un `push` al repositorio, la herramienta construye la imagen de Docker, la sube al registro y actualiza la aplicación en Azure automáticamente.
+* **Función:** Automatización del flujo de trabajo desde el código a producción.
+* **Justificación:** Implementa un flujo DevOps profesional: cada `push` construye la imagen, la sube al registro y actualiza el servicio automáticamente.
 
 ---
 
-## 📊 Resumen de Herramientas y su Función
+## 📊 Resumen Técnico
 
-| Herramienta | Función Principal | Justificación Académica |
+| Herramienta | Función Principal | Valor Académico |
 | :--- | :--- | :--- |
-| **Docker** | Empaquetado de App | Consistencia de entornos y portabilidad. |
-| **Azure CLI** | Gestión de Recursos | Automatización y documentación técnica. |
-| **ACR** | Almacenamiento de Imágenes | Seguridad y despliegue nativo en Azure. |
+| **Docker** | Empaquetado | Consistencia de entornos y portabilidad. |
+| **doctl** | Gestión de Recursos | Automatización y documentación técnica. |
+| **DOCR** | Registro de Imágenes | Seguridad y despliegue nativo optimizado. |
 | **GitHub Actions** | Automatización (CI/CD) | Demostración de flujo DevOps profesional. |
 
 ---
+
+# Configuración para despliegue desde repositorio
+
+Primero necesitaremos crear una cuenta en digital ocean vinculada con nuestra cuenta github con student pack una vez creada crearemos un token para la API, para ello nos vamos al menu de la izquierda seleccionamos la opción 'API' y una vez dentro le damos a generate new token seleccionamos los accesos que necesitemos, en este caso para la práctica se han concedido acceso total. Con el token creado procedemos a instalar en la terminal usando `sudo snap install doctl` está será nuestra herramienta para desplegar la infraestructura mediante CLI. Una vez instalado es necesario ejecutar `doctl auth init` nos pedirá pegar el token una vez pegado ya podemos operar con doctl. Lo siguiente a realizar dado que este proyecto necesita una BD y en caso de ser desplegada varias veces sería muy ineficiente dumpear y cargar el dump constantemente asi que será necesario crear un volumen externo en digital ocean para ello ejecutamos
