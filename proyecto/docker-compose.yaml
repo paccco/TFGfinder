@@ -13,7 +13,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - ./bd:/var/lib/mysql
+      - /mnt/datos-tfg/mysql:/var/lib/mysql
 
   fastify-server:
     build: ./server 
