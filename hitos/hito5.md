@@ -157,3 +157,4 @@ Se han realizado pruebas de estrés para validar la robustez de la infraestructu
 ## Dominio de la app
 
 Se puede comprobar el funcionamiento de la app en [http://64.226.104.128:3000]
+![Foto imagen](https://github.com/paccco/TFGfinder/blob/main/imagenes/hito5/appPub.png)
